@@ -62,23 +62,23 @@ async function run() {
                 },
             };
 
-            const response = await clientToCall.client.sendMessage(sendParams);
+            const responseStream = await clientToCall.client.sendMessageStream(sendParams);
 
-            if ("error" in response) {
-                return { error: `Error: ${response.error.message}` };
-            } else {
-                const result = response.result;
-                if (result.kind === "message") {
-                    const firstPart = result.parts[0];
+            for await (const event of responseStream) {
+                if (event.kind === "message") {
+                    const firstPart = event.parts[0];
                     if (firstPart.kind === "text") {
                         return { text: firstPart.text };
                     } else {
-                        return { error: `Error in first result part. Expected kind text. ${JSON.stringify(result)}` };
+                        return { error: `Error in first result part. Expected kind text. ${JSON.stringify(event)}` };
                     }
                 } else {
-                    return { error: `Error in result. Expected message. ${JSON.stringify(result)}` };
+                    return { error: `Error in event stream. Expected kind text. ${JSON.stringify(event)}` };
                 }
             }
+
+            console.error("No response received from tool call ", call.function.name);
+            return { error: `"No response received from tool call ${call.function.name}"` };
         })
 
     await agentAnnelise.initialize();
