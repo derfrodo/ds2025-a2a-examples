@@ -67,7 +67,7 @@ class AgentAthurExecutor implements AgentExecutor {
                 async msg => {
                     console.log(
                         styleText(['italic', 'dim', 'white'],
-                            `Got an intermediate event: ${msg.content} (💭 ${msg.thinking ?? ""})`));
+                            `    🤖 Got an intermediate event: ${msg.content} (💭 ${msg.thinking ?? ""})`));
 
                     eventBus.publish({
                         kind: "status-update",
