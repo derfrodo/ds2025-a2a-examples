@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "tsx",
+            "type": "node",
+            "request": "launch",
+            // "program": "${file}",
+            "program": "${workspaceFolder}/src/index.ts",
+
+            "runtimeExecutable": "tsx",
+
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+
+            "skipFiles": [
+                "<node_internals>/**",
+                "${workspaceFolder}/node_modules/**"
+            ]
+
+        }
+    ]
+}
