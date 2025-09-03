@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { MCPAgentStdio } from './MCPAgentStdio.js';
+import { MCPAgentStdio } from './agents/MCPAgentStdio.js';
 
 // Load environment variables
 dotenv.config();

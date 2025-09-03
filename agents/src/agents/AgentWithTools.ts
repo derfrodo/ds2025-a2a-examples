@@ -1,11 +1,11 @@
 import { styleText } from 'node:util';
 import { ChatResponse, Fetch, Message, Ollama, Options, Tool, ToolCall } from 'ollama';
-import { getMaxToolLoopCounts } from './utils/getMaxToolLoopCounts.js';
-import { getOllamaModel } from './utils/getOllamaModel.js';
-import { getShowThoughts } from './utils/getShowThoughts.js';
-import { getStreamEnabled } from './utils/getStreamEnabled.js';
-import { getThinkingEnabled } from './utils/getThinkingEnabled.js';
-import { getAgentWithToolsShowResponses } from './utils/getAgentWithToolsShowResponses.js';
+import { getMaxToolLoopCounts } from '../utils/getMaxToolLoopCounts.js';
+import { getOllamaModel } from '../utils/getOllamaModel.js';
+import { getShowThoughts } from '../utils/getShowThoughts.js';
+import { getStreamEnabled } from '../utils/getStreamEnabled.js';
+import { getThinkingEnabled } from '../utils/getThinkingEnabled.js';
+import { getAgentWithToolsShowResponses } from '../utils/getAgentWithToolsShowResponses.js';
 
 // Create a fetch function with custom timeout
 const fetchWithTimeout: Fetch = (url, init = {}) => {

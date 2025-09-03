@@ -15,7 +15,7 @@ import {
 import { A2AExpressApp } from "@a2a-js/sdk/server/express";
 
 import * as dotenv from "dotenv";
-import {MCPAgent as MCPAgentBase } from "./MCPAgent.js";
+import { MCPAgent } from "./agents/MCPAgent.js";
 dotenv.config();
 
 const athurAgentCard: (port: number) => AgentCard = (port) => ({
@@ -34,9 +34,9 @@ const athurAgentCard: (port: number) => AgentCard = (port) => ({
 });
 
 class AgentAthurExecutor implements AgentExecutor {
-    private baseAgent: MCPAgentBase;
+    private baseAgent: MCPAgent;
 
-    constructor(baseAgent: MCPAgentBase) {
+    constructor(baseAgent: MCPAgent) {
         this.baseAgent = baseAgent;
     }
 
@@ -87,7 +87,7 @@ async function main() {
         console.error("Invalid port number");
         return;
     }
-    const agent = new MCPAgentBase("Agent Athur");
+    const agent = new MCPAgent("Agent Athur");
     await agent.initialize();
     const agentExecutor = new AgentAthurExecutor(agent);
     const requestHandler = new DefaultRequestHandler(
