@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "start-athur": "tsx src/a2a-athur.ts",
-    "a2a-demo": "tsx src/a2a-demo.ts",
-    "mcp-demo": "tsx src/mcp-demo.ts"
+    "a2a-demo": "tsx src/a2a-annelise.ts",
+    "mcp-demo": "tsx src/mcp-annelise.ts"
   },
   "author": "",
   "license": "MIT",
