@@ -52,6 +52,16 @@ class AgentAthurExecutor implements AgentExecutor {
 
         if (requestContext.userMessage.parts[0].kind === "text") {
             console.log(`Athur retrieved a message: ${requestContext.userMessage.parts[0].text}`)
+
+
+            const taskId = uuidv4()
+            eventBus.publish({
+                kind: "task",
+                status: { state: "submitted" },
+                id: taskId,
+                contextId: requestContext.contextId,
+            });
+
             const result = await this.baseAgent.processUserInput(requestContext.userMessage.parts[0].text,
 
                 async msg => {
@@ -59,18 +69,26 @@ class AgentAthurExecutor implements AgentExecutor {
                         styleText(['italic', 'dim', 'white'],
                             `Got an intermediate event: ${msg.content} (💭 ${msg.thinking ?? ""})`));
 
-                    const responseMessage: Message = {
-                        kind: "message",
-                        messageId: uuidv4(),
-                        role: "agent",
-                        parts: [{ kind: "text", text: msg.content === "" ? msg.thinking ?? "" : msg.content }],
+                    eventBus.publish({
+                        kind: "status-update",
+                        taskId,
                         contextId: requestContext.contextId,
-                    };
-                    eventBus.publish(responseMessage);
-
+                        final: false,
+                        status: {
+                            state: "working",
+                            message: {
+                                kind: "message",
+                                messageId: uuidv4(),
+                                parts: [{
+                                    kind: "text",
+                                    text: msg.content === "" ? msg.thinking ?? "" : msg.content
+                                }],
+                                role: "agent",
+                            }
+                        }
+                    });
                 }
             );
-
             // Create a direct message response.
             const responseMessage: Message = {
                 kind: "message",
@@ -82,10 +100,19 @@ class AgentAthurExecutor implements AgentExecutor {
             };
 
 
+            eventBus.publish({
+                kind: "status-update",
+                taskId,
+                contextId: requestContext.contextId,
+                final: true,
+                status: {
+                    state: "completed",
+                    message: responseMessage
+                }
+            });
+
             console.log("Reached final answer. Will return it to the agent on the other side...")
 
-            // Publish the message and signal that the interaction is finished.
-            eventBus.publish(responseMessage);
             eventBus.finished();
             return;
         }
