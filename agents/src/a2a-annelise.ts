@@ -66,7 +66,23 @@ async function run() {
             const responseStream = await clientToCall.client.sendMessageStream(sendParams);
 
             for await (const event of responseStream) {
-                if (event.kind === "message") {
+                if (event.kind === "task") {
+                    console.log(
+                        styleText(['italic', 'dim', 'white'],
+                            `Got a task with state ${event.status.state}`));
+
+                } else if (event.kind === "status-update") {
+                    console.log(
+                        styleText(['italic', 'dim', 'white'],
+                            `Got a status update (${event.status.state})`));
+
+                    if (event.status.message?.kind === "message") {
+                        console.log(
+                            styleText(['italic', 'dim', 'white'],
+                                `    ℹ️ Update (${event.status.message.parts[0].kind}): ${event.status.message.parts[0].kind === "text" ? event.status.message.parts[0].text : JSON.stringify(event.status.message.parts[0])}`));
+                    }
+
+                } else if (event.kind === "message") {
                     const firstPart = event.parts[0];
                     if (firstPart.kind === "text") {
                         console.log(
