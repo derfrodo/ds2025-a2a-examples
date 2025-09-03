@@ -82,15 +82,15 @@ async function run() {
                                 `    ℹ️ Update (${event.status.message.parts[0].kind}): ${event.status.message.parts[0].kind === "text" ? event.status.message.parts[0].text : JSON.stringify(event.status.message.parts[0])}`));
                     }
 
-                } else if (event.kind === "message") {
-                    const firstPart = event.parts[0];
-                    if (firstPart.kind === "text") {
-                        console.log(
-                            styleText(['italic', 'dim', 'white'],
-                                `Got an intermediate message: ${firstPart.text}`));
-
-                    } else {
-                        console.error("Failed to analyse intermediate message: ", firstPart)
+                    if (event.final) {
+                        if (event.status.state === "completed") {
+                            if (event.status.message?.kind === "message") {
+                                return {
+                                    text: event.status.message.parts[0].kind === "text" ? event.status.message.parts[0].text : JSON.stringify(event.status.message.parts[0])
+                                }
+                            }
+                        }
+                        return {error:`Retrieved final event, but event state is ${event.status.state} and message is ${JSON.stringify(event.status.message)}. This was not expected and indicates an error.`}
                     }
                 } else {
                     console.error("Failed to analyse intermediate event: ", event)

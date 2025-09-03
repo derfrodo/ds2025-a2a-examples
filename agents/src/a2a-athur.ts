@@ -113,8 +113,6 @@ class AgentAthurExecutor implements AgentExecutor {
 
             console.log("Reached final answer. Will return it to the agent on the other side...")
 
-            // Publish the message and signal that the interaction is finished.
-            eventBus.publish(responseMessage);
             eventBus.finished();
             return;
         }
