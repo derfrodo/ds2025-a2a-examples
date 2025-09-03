@@ -16,6 +16,7 @@ import { A2AExpressApp } from "@a2a-js/sdk/server/express";
 
 import * as dotenv from "dotenv";
 import { MCPAgent } from "./agents/MCPAgent.js";
+import { styleText } from "node:util";
 dotenv.config();
 
 const athurAgentCard: (port: number) => AgentCard = (port) => ({
@@ -54,7 +55,10 @@ class AgentAthurExecutor implements AgentExecutor {
             const result = await this.baseAgent.processUserInput(requestContext.userMessage.parts[0].text,
 
                 async msg => {
-                    console.log(`Got an intermediate event: ${msg.content} (💭 ${msg.thinking ?? ""})`)
+                    console.log(
+                        styleText(['italic', "dim", 'white'],
+                            `Got an intermediate event: ${msg.content} (💭 ${msg.thinking ?? ""})`));
+
                     const responseMessage: Message = {
                         kind: "message",
                         messageId: uuidv4(),

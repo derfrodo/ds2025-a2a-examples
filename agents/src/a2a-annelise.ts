@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { Tool } from "ollama";
 import { v4 as uuidv4 } from "uuid";
 import { AgentWithTools } from "./agents/AgentWithTools.js";
+import { styleText } from "node:util";
 
 dotenv.config();
 
@@ -69,7 +70,10 @@ async function run() {
                     const firstPart = event.parts[0];
                     if (firstPart.kind === "text") {
                         // return { text: firstPart.text };
-                        console.log(`Got an intermediate message: ${firstPart.text}`);
+                        console.log(
+                            styleText(['italic', "dim", 'white'],
+                                `Got an intermediate message: ${firstPart.text}`));
+
                     } else {
                         console.error("Failed to analyse intermediate message: ", firstPart)
                     }
