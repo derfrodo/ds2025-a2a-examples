@@ -89,11 +89,12 @@ export class MCPAgent {
         this.agentWithTools?.start();
     }
 
-    public async processUserInput(input: string, onInnerStep?: (message: Message) => unknown) {
+    public async processUserInput(input: string, onInnerStep?: (message: Message) => unknown,
+        customMessages?: { previousMessages: Message[]; onDone: (nextMessages: Message[]) => unknown }): Promise<Message> {
         if (!this.agentWithTools) {
             throw new Error("You must initialize this agent first.")
         }
-        return await this.agentWithTools?.processUserInput(input, onInnerStep);
+        return await this.agentWithTools?.processUserInput(input, onInnerStep, customMessages);
     }
 
     private async executeToolCall(toolCall: ToolCall): Promise<ToolResult> {

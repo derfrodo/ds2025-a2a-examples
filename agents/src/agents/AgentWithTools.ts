@@ -52,7 +52,7 @@ export class AgentWithTools {
     async initialize() {
         console.log(`🤖 Initializing ${this.name} Agent...`);
 
-        this.messages.push({ role: 'system', content: this.createSystemPrompt() });
+        this.messages.push(this.createSystemPrompt());
 
         // Test Ollama connection
         this.ollamaAvailable = await this.testOllamaConnection();
@@ -90,12 +90,12 @@ export class AgentWithTools {
 
     }
 
-    private async getStreamedChatResponse(tools: Tool[]) {
+    private async getStreamedChatResponse(tools: Tool[], messagesIfNeeded?: Message[]) {
 
         let streamedAnswer = await this.ollama.chat({
             options: this.ollamaChatOptions,
             model: getOllamaModel(),
-            messages: this.messages,
+            messages: messagesIfNeeded ?? this.messages,
             tools: tools,
             think: getThinkingEnabled(),
             stream: true,
@@ -133,7 +133,7 @@ export class AgentWithTools {
 
     private async getChatResponse(tools: Tool[], messagesIfNeeded?: Message[]) {
         if (getStreamEnabled()) {
-            return this.getStreamedChatResponse(tools);
+            return this.getStreamedChatResponse(tools, messagesIfNeeded);
         }
 
         let nextAnswer = await this.ollama.chat({
@@ -157,7 +157,17 @@ export class AgentWithTools {
         }
     }
 
-    public async processUserInput(input: string, onInnerStep?: (message: Message) => unknown) {
+    public async processUserInput(
+        input: string,
+        onInnerStep?: (message: Message) => unknown,
+        customMessages?: { previousMessages: Message[]; onDone: (nextMessages: Message[]) => unknown }): Promise<Message> {
+
+        const messages = customMessages?.previousMessages ? customMessages.previousMessages : this.messages;
+
+        function addMessage(...message: Message[]) {
+            messages.push(...message)
+        }
+
         try {
             console.log('\n🤔 Processing your request...');
 
@@ -169,11 +179,11 @@ export class AgentWithTools {
             // Get all available tools
 
             const userMessage = { role: "user", content: input };
-            this.messages.push(userMessage);
+            addMessage(userMessage);
 
-            let nextAnswer = await this.getChatResponse(this.tools)
+            let nextAnswer = await this.getChatResponse(this.tools, messages)
 
-            this.messages.push(nextAnswer.message)
+            addMessage(nextAnswer.message)
             let toolCallCounter = 0;
 
             while (nextAnswer.message.tool_calls?.length ?? 0 > 0) {
@@ -204,36 +214,41 @@ export class AgentWithTools {
                             await onInnerStep(response)
                         }
                     }
-                    this.messages.push(...responses)
+                    addMessage(...responses)
 
                     if (toolCallCounter < getMaxToolLoopCounts()) {
-                        nextAnswer = await this.getChatResponse(this.tools)
-                        this.messages.push(nextAnswer.message)
+                        nextAnswer = await this.getChatResponse(this.tools, messages)
+                        addMessage(nextAnswer.message)
                     } else {
                         console.log('⚠️  Reached maximum number of tool call loops for a single user input. Stopping further tool calls.');
 
-                        nextAnswer = await this.getChatResponse([])
-                        this.messages.push(nextAnswer.message)
+                        nextAnswer = await this.getChatResponse([], messages)
+                        addMessage(nextAnswer.message)
                         break;
                     }
                 }
             }
-            const lastMessage = this.messages[this.messages.length - 1];
+            const lastMessage = messages[messages.length - 1];
             this.showThoughtsIfNeeded(lastMessage);
+            if (customMessages) {
+                customMessages.onDone(messages);
+            }
             return lastMessage;
-
         } catch (error) {
             console.error('❌ Error processing request:', error);
             throw error
         }
     }
 
-    private createSystemPrompt() {
-        let prompt = 'You are an AI assistant with access to the following tools:\n\n';
-        prompt += '\nWhen a user makes a request and you can answer sufficiently on your own or from context and message history, answer with this information. If you can not answer and you need further information, determine which tools would be helpful and call the tool. If nothing applies, please say so.';
-        return prompt;
+    private createSystemPrompt(): Message & { role: "system" } {
+        return AgentWithTools.createDefaultSystempromptForAgentWithTools()
     }
 
+    public static createDefaultSystempromptForAgentWithTools(): Message & { role: "system" } {
+        let prompt = 'You are an AI assistant with access to the some tools.\n\n';
+        prompt += '\nWhen a user makes a request and you can answer sufficiently on your own or from context and message history, answer with this information. If you can not answer and you need further information, determine which tools would be helpful and call the tool. If nothing applies, please say so.';
+        return { role: 'system', content: prompt };
+    }
 
     async shutdown() {
         console.log(`\n🔌 Shutting down ${this.name} Agent...`);

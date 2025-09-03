@@ -17,6 +17,7 @@ import { A2AExpressApp } from "@a2a-js/sdk/server/express";
 import * as dotenv from "dotenv";
 import { MCPAgent } from "./agents/MCPAgent.js";
 import { styleText } from "node:util";
+import { AgentWithTools } from "./agents/AgentWithTools.js";
 dotenv.config();
 
 const athurAgentCard: (port: number) => AgentCard = (port) => ({
@@ -87,6 +88,12 @@ class AgentAthurExecutor implements AgentExecutor {
                             }
                         }
                     });
+                },
+                {
+                    previousMessages: [AgentWithTools.createDefaultSystempromptForAgentWithTools()],
+                    onDone: () => {
+                        // You might want to save this for later or other chats with the same client?
+                    }
                 }
             );
             // Create a direct message response.
