@@ -69,7 +69,6 @@ async function run() {
                 if (event.kind === "message") {
                     const firstPart = event.parts[0];
                     if (firstPart.kind === "text") {
-                        // return { text: firstPart.text };
                         console.log(
                             styleText(['italic', "dim", 'white'],
                                 `Got an intermediate message: ${firstPart.text}`));
