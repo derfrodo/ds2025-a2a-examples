@@ -3,9 +3,9 @@ import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 import { CallToolResultSchema, ListToolsResultSchema } from '@modelcontextprotocol/sdk/types.js';
 import { ToolCall } from 'ollama';
 import { AgentWithTools, type ToolResult } from './AgentWithTools.js';
-import { MCPConnection } from './types/MCPConnection.js';
-import { getMcpServerConfigs } from './utils/getMcpServerConfigs.js';
-import { getOllamaToolsFromMcpConnections } from './utils/getOllamaToolsFromMcpConnections.js';
+import { MCPConnection } from '../types/MCPConnection.js';
+import { getMcpServerConfigs } from '../utils/getMcpServerConfigs.js';
+import { getOllamaToolsFromMcpConnections } from '../utils/getOllamaToolsFromMcpConnections.js';
 
 export class MCPAgent {
     private connections: MCPConnection[] = [];

@@ -1,14 +1,14 @@
 import * as readline from 'node:readline';
-import { MCPAgent as MCPAgentBase } from './MCPAgent.js';
+import { MCPAgent } from './MCPAgent.js';
 
 export class MCPAgentStdio {
-    private base: MCPAgentBase;
+    private base: MCPAgent;
     private rl: readline.Interface;
     private name: string;
 
     constructor(name: string) {
         this.name = name;
-        this.base = new MCPAgentBase();
+        this.base = new MCPAgent();
         // Initialize readline interface for user interaction
         this.rl = readline.createInterface({
             input: process.stdin,

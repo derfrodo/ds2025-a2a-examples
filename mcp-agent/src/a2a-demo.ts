@@ -3,7 +3,7 @@ import { A2AClient, } from "@a2a-js/sdk/client";
 import dotenv from 'dotenv';
 import { Tool } from "ollama";
 import { v4 as uuidv4 } from "uuid";
-import { AgentWithTools } from "./AgentWithTools.js";
+import { AgentWithTools } from "./agents/AgentWithTools.js";
 
 dotenv.config();
 
