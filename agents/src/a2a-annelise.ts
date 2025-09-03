@@ -68,12 +68,13 @@ async function run() {
                 if (event.kind === "message") {
                     const firstPart = event.parts[0];
                     if (firstPart.kind === "text") {
-                        return { text: firstPart.text };
+                        // return { text: firstPart.text };
+                        console.log(`Got an intermediate message: ${firstPart.text}`);
                     } else {
-                        return { error: `Error in first result part. Expected kind text. ${JSON.stringify(event)}` };
+                        console.error("Failed to analyse intermediate message: ", firstPart)
                     }
                 } else {
-                    return { error: `Error in event stream. Expected kind text. ${JSON.stringify(event)}` };
+                    console.error("Failed to analyse intermediate event: ", event)
                 }
             }
 

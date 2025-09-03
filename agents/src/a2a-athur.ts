@@ -54,7 +54,7 @@ class AgentAthurExecutor implements AgentExecutor {
             const result = await this.baseAgent.processUserInput(requestContext.userMessage.parts[0].text,
 
                 async msg => {
-                    console.log(`Got an intermediate message: ${msg.content} (💭 ${msg.thinking ?? ""})`)
+                    console.log(`Got an intermediate event: ${msg.content} (💭 ${msg.thinking ?? ""})`)
                     const responseMessage: Message = {
                         kind: "message",
                         messageId: uuidv4(),
