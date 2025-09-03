@@ -1,7 +1,7 @@
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { CallToolResultSchema, ListToolsResultSchema } from '@modelcontextprotocol/sdk/types.js';
-import { ToolCall } from 'ollama';
+import { type Message, ToolCall } from 'ollama';
 import { AgentWithTools, type ToolResult } from './AgentWithTools.js';
 import { MCPConnection } from '../types/MCPConnection.js';
 import { getMcpServerConfigs } from '../utils/getMcpServerConfigs.js';
@@ -89,11 +89,11 @@ export class MCPAgent {
         this.agentWithTools?.start();
     }
 
-    public async processUserInput(input: string) {
+    public async processUserInput(input: string, onInnerStep?: (message: Message) => unknown) {
         if (!this.agentWithTools) {
             throw new Error("You must initialize this agent first.")
         }
-        return await this.agentWithTools?.processUserInput(input);
+        return await this.agentWithTools?.processUserInput(input, onInnerStep);
     }
 
     private async executeToolCall(toolCall: ToolCall): Promise<ToolResult> {

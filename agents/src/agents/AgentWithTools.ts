@@ -157,7 +157,7 @@ export class AgentWithTools {
         }
     }
 
-    public async processUserInput(input: string) {
+    public async processUserInput(input: string, onInnerStep?: (message: Message) => unknown) {
         try {
             console.log('\n🤔 Processing your request...');
 
@@ -178,6 +178,11 @@ export class AgentWithTools {
 
             while (nextAnswer.message.tool_calls?.length ?? 0 > 0) {
                 toolCallCounter++;
+
+                if (onInnerStep) {
+                    await onInnerStep(nextAnswer.message)
+                }
+
                 const lastMessage = nextAnswer.message;
                 this.showThoughtsIfNeeded(lastMessage);
                 const calls = nextAnswer.message.tool_calls ?? [];
@@ -191,9 +196,14 @@ export class AgentWithTools {
                             content: t.text ?? t.error ?? ""
                         }));
 
-                        if (getAgentWithToolsShowResponses()) {
-                            console.log("🔧 Tool results:", responses);
+                    if (getAgentWithToolsShowResponses()) {
+                        console.log("🔧 Tool results:", responses);
+                    }
+                    if (onInnerStep) {
+                        for (const response of responses) {
+                            await onInnerStep(response)
                         }
+                    }
                     this.messages.push(...responses)
 
                     if (toolCallCounter < getMaxToolLoopCounts()) {

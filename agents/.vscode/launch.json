@@ -6,7 +6,7 @@
             "type": "node",
             "request": "launch",
             // "program": "${file}",
-            "program": "${workspaceFolder}/src/mcp-annelise.ts",
+            "program": "${workspaceFolder}/src/${fileBasename}",
 
             "runtimeExecutable": "tsx",
 

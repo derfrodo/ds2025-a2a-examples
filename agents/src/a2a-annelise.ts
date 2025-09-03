@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { Tool } from "ollama";
 import { v4 as uuidv4 } from "uuid";
 import { AgentWithTools } from "./agents/AgentWithTools.js";
+import { styleText } from "node:util";
 
 dotenv.config();
 
@@ -62,23 +63,26 @@ async function run() {
                 },
             };
 
-            const response = await clientToCall.client.sendMessage(sendParams);
+            const responseStream = await clientToCall.client.sendMessageStream(sendParams);
 
-            if ("error" in response) {
-                return { error: `Error: ${response.error.message}` };
-            } else {
-                const result = response.result;
-                if (result.kind === "message") {
-                    const firstPart = result.parts[0];
+            for await (const event of responseStream) {
+                if (event.kind === "message") {
+                    const firstPart = event.parts[0];
                     if (firstPart.kind === "text") {
-                        return { text: firstPart.text };
+                        console.log(
+                            styleText(['italic', 'dim', 'white'],
+                                `Got an intermediate message: ${firstPart.text}`));
+
                     } else {
-                        return { error: `Error in first result part. Expected kind text. ${JSON.stringify(result)}` };
+                        console.error("Failed to analyse intermediate message: ", firstPart)
                     }
                 } else {
-                    return { error: `Error in result. Expected message. ${JSON.stringify(result)}` };
+                    console.error("Failed to analyse intermediate event: ", event)
                 }
             }
+
+            console.error("No response received from tool call ", call.function.name);
+            return { error: `"No response received from tool call ${call.function.name}"` };
         })
 
     await agentAnnelise.initialize();
