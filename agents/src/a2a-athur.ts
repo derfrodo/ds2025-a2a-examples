@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid"; // For generating unique IDs
 
 import {
     AgentCard,
-    Message
+    Message,
 } from "@a2a-js/sdk";
 import {
     AgentExecutor,
@@ -28,6 +28,7 @@ const athurAgentCard: (port: number) => AgentCard = (port) => ({
         id: "find-a-place", name: "Find a Place", description: "Find a place by name or location.", tags: ["geography", "location"]
     }],
     capabilities: {
+        streaming: true
     },
     defaultOutputModes: ["text"],
     defaultInputModes: ["text"],
@@ -50,7 +51,22 @@ class AgentAthurExecutor implements AgentExecutor {
 
         if (requestContext.userMessage.parts[0].kind === "text") {
             console.log(`Athur retrieved a message: ${requestContext.userMessage.parts[0].text}`)
-            const result = await this.baseAgent.processUserInput(requestContext.userMessage.parts[0].text);
+            const result = await this.baseAgent.processUserInput(requestContext.userMessage.parts[0].text,
+
+                async msg => {
+                    console.log(`Got an intermediate message: ${msg.content} (💭 ${msg.thinking ?? ""})`)
+                    const responseMessage: Message = {
+                        kind: "message",
+                        messageId: uuidv4(),
+                        role: "agent",
+                        parts: [{ kind: "text", text: msg.content === "" ? msg.thinking ?? "" : msg.content }],
+                        contextId: requestContext.contextId,
+                    };
+                    eventBus.publish(responseMessage);
+
+                }
+            );
+
             // Create a direct message response.
             const responseMessage: Message = {
                 kind: "message",
@@ -60,6 +76,9 @@ class AgentAthurExecutor implements AgentExecutor {
                 // Associate the response with the incoming request's context.
                 contextId: requestContext.contextId,
             };
+
+
+            console.log("Reached final answer. Will return it to the agent on the other side...")
 
             // Publish the message and signal that the interaction is finished.
             eventBus.publish(responseMessage);
