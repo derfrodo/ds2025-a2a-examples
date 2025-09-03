@@ -70,7 +70,7 @@ async function run() {
                     const firstPart = event.parts[0];
                     if (firstPart.kind === "text") {
                         console.log(
-                            styleText(['italic', "dim", 'white'],
+                            styleText(['italic', 'dim', 'white'],
                                 `Got an intermediate message: ${firstPart.text}`));
 
                     } else {
