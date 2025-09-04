@@ -1,4 +1,4 @@
-import { MCPConnection } from './types/MCPConnection.js';
+import { MCPConnection } from '../types/MCPConnection.js';
 
 export function getToolsFromMcpConnections(connections: MCPConnection[]) {
     const allTools = [];
