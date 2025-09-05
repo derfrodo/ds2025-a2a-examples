@@ -1,6 +1,7 @@
 # MCP A2A Examples
 
-A collection of Model Context Protocol (MCP) servers and AI agents demonstrating integration with German infrastructure APIs. This project showcases how to build modular, interoperable tools for accessing location-based services and data.
+A collection of Model Context Protocol (MCP) servers and AI agents demonstrating integration with German infrastructure APIs.
+This project showcases how to build modular, interoperable tools for accessing location-based services and data.
 
 ## 🚀 Overview
 
@@ -23,13 +24,13 @@ This repository contains:
 
 | Component | Description |
 |-----------|-------------|
-| [`agents/`](./agents/) | MCP agents that connect to multiple servers for integrated functionality |
+| [`agents/`](./agents/) | AI agents that connect to multiple MCP-servers or with other agents for integrated functionality |
 
 ## 🛠️ Quick Start
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js (LTS is recommended)
 - npm
 
 ### Running Individual MCP Servers
@@ -55,10 +56,24 @@ npm run dev
 
 ### Running the AI Agent
 
+
+## A2A Demo
+
+The scripts below must be started in sequentially in seperate consoles.
+
 ```bash
 cd agents
 npm install
-npm run dev
+npm run start-athur 
+```
+
+Wait for the agent to state, that a agent card is available. Afterwards start the a2a-demo which is "Agent Annelise" calling "Agent Athur" to find out a specific location, if the models are smart enough 😅
+
+```bash
+cd agents
+npm install
+npm run a2a-demo
+
 ```
 
 ## 🔧 Development
@@ -76,7 +91,3 @@ Each component has its own README with detailed setup instructions:
 - **Unified Interface**: AI agents can orchestrate multiple servers seamlessly
 - **German Infrastructure Focus**: Specialized for German location-based services
 - **MCP Compatibility**: Built on the Model Context Protocol standard
-
-## 📄 License
-
-MIT
