@@ -23,7 +23,7 @@ npm install
 
 ### Required
 
-- Node.js 18+
+- Node.js (with npm)
 
 ### Environment Setup
 
@@ -105,14 +105,5 @@ This server uses the [Nominatim API](https://nominatim.org/release-docs/develop/
 - OpenStreetMap data
 - Free and open usage
 - No API key required
-
-## 🔗 Related Projects
-
-This MCP server works with:
-- [MCP Agents](../agents/) - AI agents that can orchestrate multiple MCP servers
-- [Gas Stations MCP](../gas-stations-mcp/) - Provides coordinates for station searches
-- [E-Charging Stations MCP](../ladesaeulen-mcp/) - Provides coordinates for charging station searches
-
-## 📄 License
-
-MIT
+- Expect the license of the result to be
+  - "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright"

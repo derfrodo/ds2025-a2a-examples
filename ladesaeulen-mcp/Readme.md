@@ -89,7 +89,6 @@ Calculate the distance between two coordinate points.
 ## 📊 Data Sources
 
 This server uses data from:
-- [Ladestationen API (German Federal Government)](https://ladestationen.api.bund.dev/)
 - [Open NRW Dataset](https://open.nrw/dataset/deutschland-e-ladesaulen-ne)
 - Official German charging station registry
 
@@ -98,14 +97,3 @@ The data includes comprehensive information about:
 - Technical specifications (power, connector types)
 - Precise locations and addresses
 - Operator information
-
-## 🔗 Related Projects
-
-This MCP server works with:
-- [MCP Agents](../agents/) - AI agents that can orchestrate multiple MCP servers
-- [Navigation MCP](../navigation-mcp/) - For geocoding addresses to coordinates
-- [Gas Stations MCP](../gas-stations-mcp/) - For traditional fuel stations
-
-## 📄 License
-
-MIT

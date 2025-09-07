@@ -21,7 +21,7 @@ npm install
 
 ### Required
 
-- Node.js 18+
+- Node.js (npm)
 - Tankerkoenig API key
 
 ### Environment Setup
@@ -88,14 +88,3 @@ This server uses the [Tankerkoenig API](https://creativecommons.tankerkoenig.de/
 - Real-time fuel prices from German gas stations
 - Station locations and details
 - Data licensed under Creative Commons
-
-## 🔗 Related Projects
-
-This MCP server works with:
-- [MCP Agents](../agents/) - AI agents that can orchestrate multiple MCP servers
-- [Navigation MCP](../navigation-mcp/) - For geocoding addresses to coordinates
-- [E-Charging Stations MCP](../ladesaeulen-mcp/) - For electric vehicle charging options
-
-## 📄 License
-
-MIT
