@@ -1,25 +1,11 @@
 import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { z } from "zod";
+import { z, type ZodTypeAny } from "zod";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import fetch from "cross-fetch";
 import dotenv from "dotenv";
 
 import { calculateDistance } from "./calculateDistance.js";
-
-// Centralized Zod enum for zoom levels and address details
-const ZoomLevelEnum = z.enum([
-    "3",  // country
-    "5",  // state
-    "8",  // county
-    "10", // city
-    "12", // town / borough
-    "13", // village / suburb
-    "14", // neighbourhood
-    "15", // any settlement
-    "16", // major streets
-    "17", // major and minor streets
-    "18"  // building
-]).describe(`Level of detail required for the address. Default is 18. This is a number that corresponds roughly to the zoom level used in XYZ tile sources in frameworks like Leaflet.js, Openlayers etc. In terms of address details the zoom:\n3: country\n5: state\n8: county\n10: city\n12: town / borough\n13: village / suburb\n14: neighbourhood\n15: any settlement\n16: major streets\n17: major and minor streets\n18: building`);
+import { ZoomLevelEnum } from "./ZoomLevelEnum.js";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -143,18 +129,18 @@ const navigationReverseGeocodeSearchOutputSchema = {
         postcode: z.string().optional()
     }).optional()
 }
-
+const reverseGeocodeInputSchema = {
+    lat: z.number().describe("Latitude of the first point as a number. (e.g. 52.5200)"),
+    lon: z.number().describe("Longitude of the first point as a number. (e.g. 13.4050)"),
+    zoom: ZoomLevelEnum.optional().default("18"),
+    addressdetails: z.boolean().optional()
+};
 server.registerTool(
     "navigation-reverse-geocode-search",
     {
         title: "Reverse Geocode",
         description: "Get address details for a given latitude and longitude.",
-        inputSchema: {
-            lat: z.number().describe("Latitude of the first point as a number. (e.g. 52.5200)"),
-            lon: z.number().describe("Longitude of the first point as a number. (e.g. 13.4050)"),
-            zoom: ZoomLevelEnum.optional().default("18"),
-            addressdetails: z.boolean().optional()
-        },
+        inputSchema: reverseGeocodeInputSchema,
         outputSchema: navigationReverseGeocodeSearchOutputSchema
     },
     async ({ lat, lon, zoom, addressdetails }) => {
