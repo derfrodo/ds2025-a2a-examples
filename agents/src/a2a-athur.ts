@@ -117,6 +117,14 @@ class AgentAthurExecutor implements AgentExecutor {
                     message: responseMessage
                 }
             });
+            console.log(
+                styleText([ 'dim', 'white'],
+                    `    🤖 Got a final message: `),
+
+                styleText(['italic', 'dim', 'white'],
+                    `${result.content} (💭 ${result.thinking ?? ""})`)
+            );
+
 
             console.log("Reached final answer. Will return it to the agent on the other side...")
 

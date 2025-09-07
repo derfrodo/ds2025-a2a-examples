@@ -111,7 +111,8 @@ async function run() {
     await agentAnnelise.start();
 
     console.log("Ask smart Annelise...")
-    const message = "Wo ist in die Henrichshütte in Hattingen?";
+    // const message = "Wo ist in die Henrichshütte in Hattingen?";
+    const message = "Where is the Henrichshütte in Hattingen in terms of its geo coordinates?";
     console.log(message);
     const result = await agentAnnelise.processUserInput(message);
 
