@@ -54,33 +54,59 @@ npm run inspect
 ## 🔧 Available Tools
 
 ### `navigation-structured-search`
-Search for locations with structured address components.
+Searches for locations using structured address components.
 
 **Parameters:**
-- `q` (string): Search query
-- `limit` (number, optional): Maximum results (default: 10)
-- `addressdetails` (string, optional): Include address details ('0' or '1', default: '1')
-- `zoom` (string, optional): Detail level ('3'-'18', see zoom levels below)
+- `street` (string, optional): Street name
+- `city` (string, optional): City
+- `state` (string, optional): State/region
+- `country` (string, optional): Country
+- `postalcode` (string, optional): Postal code
+- `addressdetails` (boolean, optional): Include address details (default: false)
+- `limit` (number, optional): Maximum number of results
+- `countrycodes` (string, optional): Comma-separated country codes to restrict search (e.g. 'de,at')
 
-### `navigation-reverse-search`
-Convert coordinates to address information.
+**Returns:** List of locations with coordinates and address details.
+
+---
+
+
+### `navigation-free-form-search`
+Free-text search for places, addresses, or POIs.
 
 **Parameters:**
-- `lat` (number): Latitude coordinate
-- `lng` (number): Longitude coordinate
-- `zoom` (string, optional): Detail level ('3'-'18', default: '18')
-- `addressdetails` (string, optional): Include address details ('0' or '1', default: '1')
+- `query` (string): Search term or address
+- `limit` (number, optional): Maximum number of results (default: 10)
+- `countrycodes` (string, optional): Comma-separated country codes to restrict search
 
-### `calculate-distance`
-Calculate the distance between two coordinate points.
+**Returns:** List of results with coordinates and address details.
+
+---
+
+
+### `navigation-reverse-geocode-search`
+Converts coordinates to address information (reverse geocoding).
 
 **Parameters:**
-- `lat1` (number): First point latitude
-- `lng1` (number): First point longitude  
-- `lat2` (number): Second point latitude
-- `lng2` (number): Second point longitude
+- `lat` (number): Latitude
+- `lon` (number): Longitude
+- `zoom` (string, optional): Level of detail ('3'-'18', default: '18')
+- `addressdetails` (boolean, optional): Include address details
 
-**Returns:** Distance in kilometers
+**Returns:** Address and additional location information if available.
+
+---
+
+
+### `navigation-calculate-distance`
+Calculates the distance between two coordinate points.
+
+**Parameters:**
+- `point1` (object): `{ lat: number, lon: number }` (first point)
+- `point2` (object): `{ lat: number, lon: number }` (second point)
+- `precision` (number, optional): Number of decimal places (default: 2)
+
+**Returns:** Distance in kilometers (`distance`).
 
 ## 🔍 Zoom Levels
 

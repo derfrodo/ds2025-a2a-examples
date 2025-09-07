@@ -45,6 +45,6 @@ After connecting, the agent provides access to all tools of the mcps
 
 ## Development
 
-- `npm run start-athur`: Startet den Agenten "Athur". Dieser kann auf die oben genannten MCP Tools zugreifen und wird für die a2a-demo benötigt. Athur ermöglicht es, über das a2a protocol [https://a2a-protocol.org] angesprochen zu werden.
-- `npm run a2a-demo`: Startet eine Agentin ("Annelise"), die versuchen wird, einen Ort zu finden. Dazu kann sie dank des a2a protocol [https://a2a-protocol.org] und einer Einbindung von Athur via Tools indirekt auf die MCP-Tools zurückgreifen. Athur muss vor dem Start ausgeführt werden und seine Agent-Card für den Abruf bereit halten.
-- `npm run mcp-demo`: Startet einen Agenten, mit dem der Benutzer via CLI chatten kann. Dieser Agent kann direkt auf die MCP Tools zugreifen
+- `npm run start-athur`: Starts the agent "Athur". This agent can access the above-mentioned MCP tools and is required for the a2a demo. Athur can be addressed via the a2a protocol [https://a2a-protocol.org].
+- `npm run a2a-demo`: Starts an agent ("Annelise") who will try to find a location. Thanks to the a2a protocol [https://a2a-protocol.org] and integration of Athur via tools, she can indirectly access the MCP tools. Athur must be running before starting and have its agent card ready for retrieval.
+- `npm run mcp-demo`: Starts an agent that allows the user to chat via CLI. This agent can directly access the MCP tools.
