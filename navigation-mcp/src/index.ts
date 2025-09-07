@@ -62,14 +62,28 @@ server.registerTool(
         );
         const response = await fetch(`https://nominatim.openstreetmap.org/search?${params.toString()}`);
         const data = await response.json();
-        const structuredContent = { results: data };
-        return {
-            content: [{
-                type: "text",
-                text: JSON.stringify(structuredContent)
-            }],
-            structuredContent
-        };
+        if (Array.isArray(data)) {
+            const structuredContent = {
+                results: Array.isArray(data) ?
+                    data.map(item => stationObject.parse(item)) : []
+            };
+            return {
+                content: [{
+                    type: "text",
+                    text: JSON.stringify(structuredContent)
+                }],
+                structuredContent
+            };
+        } else {
+            return {
+                isError: true,
+                content: [{
+                    type: "text",
+                    text: "API response was not an array as expected."
+                }],
+            };
+
+        }
     }
 );
 
@@ -100,7 +114,6 @@ server.registerTool(
         const data = await response.json();
 
         if (Array.isArray(data)) {
-
             const structuredContent = {
                 results: Array.isArray(data) ?
                     data.map(item => stationObject.parse(item)) : []
