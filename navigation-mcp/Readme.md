@@ -76,7 +76,7 @@ Free-text search for places, addresses, or POIs.
 
 **Parameters:**
 - `query` (string): Search term or address
-- `limit` (number, optional): Maximum number of results (default: 10)
+- `limit` (number, optional): Maximum number of results (default: 3)
 - `countrycodes` (string, optional): Comma-separated country codes to restrict search
 
 **Returns:** List of results with coordinates and address details.
