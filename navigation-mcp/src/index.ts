@@ -43,7 +43,7 @@ server.registerTool(
             state: z.string().optional(),
             country: z.string().optional(),
             postalcode: z.string().optional(),
-            addressdetails: z.boolean().optional(),
+            addressdetails: z.boolean().optional().default(false).describe("When set to true, include a breakdown of the address into elements. The exact content of the address breakdown depends on the output format"),
             limit: z.number().optional(),
             countrycodes: z.string().optional().describe("A comma-separated list of country codes to limit the search to specific countries (e.g., 'us,ca' for the United States and Canada).")
         },
@@ -80,7 +80,6 @@ server.registerTool(
         description: "Search for locations by free-form data.",
         inputSchema: {
             q: z.string().optional().describe("The search query string. E.g. Dortmund Deutschland"),
-            addressdetails: z.boolean().optional().default(false).describe("When set to true (not recommended), include a breakdown of the address into elements. The exact content of the address breakdown depends on the output format"),
             limit: z.number().optional().default(10).describe("Maximum number of results to return. Default is 10."),
             countrycodes: z.string().optional().describe("A comma-separated list of country codes to limit the search to specific countries (e.g., 'us,ca' for the United States and Canada).")
         },
@@ -88,26 +87,41 @@ server.registerTool(
             results: z.array(stationObject)
         }
     },
-    async ({ q, addressdetails, limit, countrycodes, }) => {
+    async ({ q, limit, countrycodes, }) => {
         const params = new URLSearchParams(
             Object.entries({
                 q,
                 format: "jsonv2",
-                addressdetails: addressdetails ? '1' : '0',
                 limit: limit?.toString(),
                 countrycodes
             }).filter(([_, value]) => value !== undefined) as [string, string][]
         );
         const response = await fetch(`https://nominatim.openstreetmap.org/search?${params.toString()}`);
         const data = await response.json();
-        const structuredContent = { results: data };
-        return {
-            content: [{
-                type: "text",
-                text: JSON.stringify(structuredContent)
-            }],
-            structuredContent
-        };
+
+        if (Array.isArray(data)) {
+
+            const structuredContent = {
+                results: Array.isArray(data) ?
+                    data.map(item => stationObject.parse(item)) : []
+            };
+            return {
+                content: [{
+                    type: "text",
+                    text: JSON.stringify(structuredContent)
+                }],
+                structuredContent
+            };
+        } else {
+            return {
+                isError: true,
+                content: [{
+                    type: "text",
+                    text: "API response was not an array as expected."
+                }],
+            };
+
+        }
     }
 );
 
