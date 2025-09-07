@@ -1,6 +1,5 @@
-# MCP Agent
-
-A minimal agent that uses Ollama as an LLM and connects to multiple Model Context Protocol (MCP) servers to provide integrated functionality.
+# Agents
+In this folder you will find some examples to visualize and play around with the protocols [MCP](https://modelcontextprotocol.io/) and [a2a](https://a2a-protocol.org).
 
 ## Features
 
@@ -8,15 +7,13 @@ A minimal agent that uses Ollama as an LLM and connects to multiple Model Contex
 - **Ollama integration**: Uses Ollama for natural language processing (optional)
 - **Multi-MCP support**: Connects to three MCP servers:
   - `tankerkoenig-mcp`: German gas station information
-  - `nominatim-mcp`: Location search and geocoding
+  - `navigation-mcp`: Location search and geocoding
   - `ladesaeulen-mcp`: German e-charging station information
-- **Manual mode**: Works without Ollama using direct tool commands
-- **Graceful fallbacks**: Continues working even if some servers are unavailable
 
 ## Prerequisites
 
 ### Required
-- Node.js 18+ with npm
+- Node.js (with npm)
 
 ### Optional (for AI features)
 - **Ollama**: Install and run Ollama with a model (e.g., `llama3.2`)
@@ -39,101 +36,15 @@ cp .env.sample .env
 npm install
 ```
 
-## Usage
-
-### Quick demo
-```bash
-npm run demo
-```
-
-### Interactive agent
-```bash
-npm run dev
-```
-
-### Manual mode (without Ollama)
-When Ollama is not available, use manual commands:
-```
-You: list tools
-You: call nominatim-search with q=Berlin,limit=1
-You: call e-charging-stations with limit=5
-```
-
-### AI mode (with Ollama)
-Use natural language:
-```
-You: Find gas stations near Berlin
-You: What's the location of Alexanderplatz?
-You: Show me charging stations in Munich
-```
-
-### Production mode
-```bash
-npm run build
-npm start
-```
-
-## Architecture
-
-The agent acts as an orchestrator between:
-- **User**: Via stdio interface
-- **Ollama** (optional): For natural language understanding and generation
-- **MCP Servers**: For accessing specialized tools and data
-
-```
-User Input → Agent → [Ollama (analyze)] → MCP Tools → [Ollama (respond)] → User Output
-```
-
 ## Available Tools
 
-After connecting, the agent provides access to:
-
-### Tankerkoenig (German Gas Stations)
-- `tankerkoenig-stations`: Find nearby gas stations
-- `tankerkoenig-prices`: Get fuel prices for stations
-- `tankerkoenig-detail`: Get detailed station information
-
-### Nominatim (OpenStreetMap Geocoding)
-- `nominatim-search`: Search for locations by name/address
-- `nominatim-reverse`: Get address from coordinates
-
-### Ladesäulen (German E-Charging Stations)
-- `e-charging-stations`: Find registered charging stations
-- `nearest-e-charging-stations`: Find nearest charging stations
-- `calculate-distance`: Calculate distance between points
+After connecting, the agent provides access to all tools of the mcps 
+- `tankerkoenig-mcp` for german gas station information
+- `navigation-mcp` for location search and geocoding
+- `ladesaeulen-mcp` for german e-charging station information
 
 ## Development
 
-- `npm run demo`: Run demonstration of MCP connections
-- `npm test`: Test MCP server connections
-- `npm run dev`: Run in development mode
-- `npm run check`: Type check TypeScript
-- `npm run build`: Build for production
-
-## Example Interactions
-
-### With Ollama (Natural Language)
-```
-You: Find gas stations near Berlin
-🤖 Agent: I found several gas stations near Berlin...
-
-You: What's the exact location of "Alexanderplatz Berlin"?
-🤖 Agent: Alexanderplatz is located at coordinates...
-```
-
-### Without Ollama (Manual Commands)
-```
-You: call nominatim-search with q=Berlin,limit=3
-📄 Result: {"results": [...]}
-
-You: call tankerkoenig-stations with lat=52.5200,lng=13.4050,rad=5
-📄 Result: {"stations": [...]}
-```
-
-## Error Handling
-
-The agent is designed to be robust:
-- ✅ Continues working if Ollama is unavailable (falls back to manual mode)
-- ✅ Handles MCP server connection failures gracefully
-- ✅ Provides clear error messages and usage instructions
-- ✅ Maintains connections properly and cleans up resources
+- `npm run start-athur`: Startet den Agenten "Athur". Dieser kann auf die oben genannten MCP Tools zugreifen und wird für die a2a-demo benötigt. Athur ermöglicht es, über das a2a protocol [https://a2a-protocol.org] angesprochen zu werden.
+- `npm run a2a-demo`: Startet eine Agentin ("Annelise"), die versuchen wird, einen Ort zu finden. Dazu kann sie dank des a2a protocol [https://a2a-protocol.org] und einer Einbindung von Athur via Tools indirekt auf die MCP-Tools zurückgreifen. Athur muss vor dem Start ausgeführt werden und seine Agent-Card für den Abruf bereit halten.
+- `npm run mcp-demo`: Startet einen Agenten, mit dem der Benutzer via CLI chatten kann. Dieser Agent kann direkt auf die MCP Tools zugreifen
