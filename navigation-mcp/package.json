@@ -1,5 +1,5 @@
 {
-  "name": "nominatim-mcp",
+  "name": "navigation-mcp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,7 +13,6 @@
     "inspect": "npx @modelcontextprotocol/inspector npm run dev"
   },
   "author": "",
-  "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.3",
     "cross-fetch": "^4.1.0",

@@ -67,8 +67,10 @@ class AgentAthurExecutor implements AgentExecutor {
 
                 async msg => {
                     console.log(
+                        styleText(['dim', 'white'],
+                            `    🤖 Got an intermediate event: `),
                         styleText(['italic', 'dim', 'white'],
-                            `    🤖 Got an intermediate event: ${msg.content} (💭 ${msg.thinking ?? ""})`));
+                            `${msg.content} (💭 ${msg.thinking ?? ""})`));
 
                     eventBus.publish({
                         kind: "status-update",
@@ -117,6 +119,14 @@ class AgentAthurExecutor implements AgentExecutor {
                     message: responseMessage
                 }
             });
+            console.log(
+                styleText(['dim', 'white'],
+                    `    🤖 Got a final message: `),
+
+                styleText(['italic', 'dim', 'white'],
+                    `${result.content} (💭 ${result.thinking ?? ""})`)
+            );
+
 
             console.log("Reached final answer. Will return it to the agent on the other side...")
 
