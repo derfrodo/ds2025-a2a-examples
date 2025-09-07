@@ -68,18 +68,25 @@ async function run() {
             for await (const event of responseStream) {
                 if (event.kind === "task") {
                     console.log(
+                        styleText(['dim', 'white'],
+                            `    🤖 `),
                         styleText(['italic', 'dim', 'white'],
-                            `    🤖 Got a task with state ${event.status.state}`));
+                            `Got a task with state ${event.status.state}`),
+                    );
 
                 } else if (event.kind === "status-update") {
                     console.log(
+                        styleText(['dim', 'white'],
+                            `    🤖 `),
                         styleText(['italic', 'dim', 'white'],
-                            `    🤖 Got a status update (${event.status.state})\n`));
+                            `Got a status update (${event.status.state})\n`));
 
                     if (event.status.message?.kind === "message") {
                         console.log(
+                            styleText(['dim', 'white'],
+                                `        🤖ℹ️ `),
                             styleText(['italic', 'dim', 'white'],
-                                `        🤖ℹ️ Update (${event.status.message.parts[0].kind}): ${event.status.message.parts[0].kind === "text" ? event.status.message.parts[0].text : JSON.stringify(event.status.message.parts[0])}\n\n`));
+                                `Update (${event.status.message.parts[0].kind}): ${event.status.message.parts[0].kind === "text" ? event.status.message.parts[0].text : JSON.stringify(event.status.message.parts[0])}\n\n`));
                     }
 
                     if (event.final) {
@@ -87,8 +94,10 @@ async function run() {
                             if (event.status.message?.kind === "message") {
 
                                 console.log(
+                                    styleText(['dim', 'white'],
+                                        `        🤖ℹ️ `),
                                     styleText(['italic', 'dim', 'white'],
-                                        `        🤖ℹ️ Final message (${event.status.message.parts[0].kind}): ${event.status.message.parts[0].kind === "text" ? event.status.message.parts[0].text : JSON.stringify(event.status.message.parts[0])}\n\n`));
+                                        `Final message (${event.status.message.parts[0].kind}): ${event.status.message.parts[0].kind === "text" ? event.status.message.parts[0].text : JSON.stringify(event.status.message.parts[0])}\n\n`));
 
 
                                 return {

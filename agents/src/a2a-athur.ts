@@ -67,8 +67,10 @@ class AgentAthurExecutor implements AgentExecutor {
 
                 async msg => {
                     console.log(
+                        styleText(['dim', 'white'],
+                            `    🤖 Got an intermediate event: `),
                         styleText(['italic', 'dim', 'white'],
-                            `    🤖 Got an intermediate event: ${msg.content} (💭 ${msg.thinking ?? ""})`));
+                            `${msg.content} (💭 ${msg.thinking ?? ""})`));
 
                     eventBus.publish({
                         kind: "status-update",
@@ -118,7 +120,7 @@ class AgentAthurExecutor implements AgentExecutor {
                 }
             });
             console.log(
-                styleText([ 'dim', 'white'],
+                styleText(['dim', 'white'],
                     `    🤖 Got a final message: `),
 
                 styleText(['italic', 'dim', 'white'],
