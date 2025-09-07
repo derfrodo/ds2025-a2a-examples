@@ -94,7 +94,7 @@ server.registerTool(
         description: "Search for locations by free-form data.",
         inputSchema: {
             query: z.string().optional().describe("The phrase of the location to be used for search. Should be similar to a written address. Examples \"Dortmund in Deutschland\" becomes \"Dortmund Deutschland\" or \"das Brandenburger Tor von Berlin\" becomes \"Brandenburger Tor Berlin\" or simple adresses like \"Voßkuhle 37 Dortmund\""),
-            limit: z.number().optional().default(10).describe("Maximum number of results to return. Default is 10."),
+            limit: z.number().optional().default(3).describe("Maximum number of results to return. Default is 3."),
             countrycodes: z.string().optional().describe("A comma-separated list of country codes to limit the search to specific countries (e.g., 'us,ca' for the United States and Canada).")
         },
         outputSchema: {
@@ -106,7 +106,7 @@ server.registerTool(
             Object.entries({
                 q,
                 format: "jsonv2",
-                limit: limit?.toString(),
+                limit: limit?.toString() ?? "3",
                 countrycodes
             }).filter(([_, value]) => value !== undefined) as [string, string][]
         );
