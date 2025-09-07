@@ -79,7 +79,7 @@ server.registerTool(
         title: "Search Locations",
         description: "Search for locations by free-form data.",
         inputSchema: {
-            q: z.string().optional().describe("The search query string. E.g. Dortmund Deutschland"),
+            query: z.string().optional().describe("The phrase of the location to be used for search. E.g. Dortmund Deutschland"),
             limit: z.number().optional().default(10).describe("Maximum number of results to return. Default is 10."),
             countrycodes: z.string().optional().describe("A comma-separated list of country codes to limit the search to specific countries (e.g., 'us,ca' for the United States and Canada).")
         },
@@ -87,7 +87,7 @@ server.registerTool(
             results: z.array(stationObject)
         }
     },
-    async ({ q, limit, countrycodes, }) => {
+    async ({ query: q, limit, countrycodes, }) => {
         const params = new URLSearchParams(
             Object.entries({
                 q,
