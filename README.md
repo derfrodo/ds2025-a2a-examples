@@ -57,6 +57,16 @@ npm run dev
 ### Running the AI Agent
 
 
+## MCP Demo
+
+Just start the mcp demo by using the following commands.
+
+```bash
+cd agents
+npm install
+npm run mcp-demo 
+```
+
 ## A2A Demo
 
 The scripts below must be started in sequentially in seperate consoles.
