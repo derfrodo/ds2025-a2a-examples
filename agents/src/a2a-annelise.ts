@@ -5,6 +5,7 @@ import { Tool } from "ollama";
 import { v4 as uuidv4 } from "uuid";
 import { AgentWithTools } from "./agents/AgentWithTools.js";
 import { styleText } from "node:util";
+import { getOllamaModel } from "./utils/getOllamaModel.js";
 
 dotenv.config();
 
@@ -121,11 +122,16 @@ async function run() {
 
     console.log("Ask smart Annelise...")
     // const message = "Wo ist in die Henrichshütte in Hattingen?";
-    const message = "Where is Henrichshütte in Hattingen, Germany located? I am talking about its geo coordinates.";
+    const message = "Wo ist das Hauptgebäude Materna in Dortmund?";
+    // const message = "Where is Henrichshütte in Hattingen, Germany located? I am talking about its geo coordinates.";
     console.log(message);
-    const result = await agentAnnelise.processUserInput(message);
 
-    console.log("Annelise:" + result.content)
+    const stateTimeMessage = `Annelise working with a2a athur and ${getOllamaModel()}`;
+    console.time(stateTimeMessage);
+    const result = await agentAnnelise.processUserInput(message);
+    console.log("Annelise:" + result.content +"\n\n")
+
+    console.timeEnd(stateTimeMessage);
 }
 
 await run();
