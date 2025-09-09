@@ -122,14 +122,16 @@ async function run() {
 
     console.log("Ask smart Annelise...")
     // const message = "Wo ist in die Henrichshütte in Hattingen?";
-    const message = "Wo ist das Hauptgebäude Materna in Dortmund?";
+    // const message = "Wo ist das Hauptgebäude Materna in Dortmund?";
     // const message = "Where is Henrichshütte in Hattingen, Germany located? I am talking about its geo coordinates.";
+    const message = "Wo ist das der Flughafen in Dortmund?";
     console.log(message);
 
     const stateTimeMessage = `Annelise working with a2a athur and ${getOllamaModel()}`;
     console.time(stateTimeMessage);
     const result = await agentAnnelise.processUserInput(message);
-    console.log("Annelise:" + result.content +"\n\n")
+    console.log("Annelise:" + result.content + "\n\n")
+    console.log(`(You have asked her "${message}")`);
 
     console.timeEnd(stateTimeMessage);
 }
