@@ -79,28 +79,13 @@ Retrieve registered charging stations from the German government database.
 ---
 
 ### `nearest-e-charging-stations`
-Find charging stations closest to a specific location with distance filtering.
+Find charging stations closest to a specific location.
 
 **Parameters:**
-- `lat` (number): Latitude coordinate
-- `lng` (number): Longitude coordinate
+- `location` (object): Location coordinates as `{ lat: number, lon: number }`
 - `limit` (number, optional): Maximum number of stations to return (default: 10)
-- `maxDistanceKm` (number, optional): Maximum search distance in km (default: 50)
 
 **Returns:** Array of nearest stations sorted by distance, including calculated distances.
-
----
-
-### `calculate-distance`
-Calculate the distance between two coordinate points using precise geographic calculations.
-
-**Parameters:**
-- `lat1` (number): First point latitude
-- `lng1` (number): First point longitude
-- `lat2` (number): Second point latitude
-- `lng2` (number): Second point longitude
-
-**Returns:** Distance in kilometers with high precision.
 
 ## 💡 Usage Examples
 
@@ -123,25 +108,26 @@ Calculate the distance between two coordinate points using precise geographic ca
 {
   "tool": "nearest-e-charging-stations",
   "parameters": {
-    "lat": 48.1351,
-    "lng": 11.5820,
-    "limit": 15,
-    "maxDistanceKm": 25
+    "location": {
+      "lat": 48.1351,
+      "lon": 11.5820
+    },
+    "limit": 15
   }
 }
 ```
 
 ### Calculate Distance Between Points
 
+Use the navigation-mcp server for distance calculations:
+
 ```javascript
-// Distance between Berlin and Hamburg
+// Distance between Berlin and Hamburg (use navigation-mcp server)
 {
-  "tool": "calculate-distance",
+  "tool": "navigation-calculate-distance",
   "parameters": {
-    "lat1": 52.5200,
-    "lng1": 13.4050,
-    "lat2": 53.5511,
-    "lng2": 9.9937
+    "point1": { "lat": 52.5200, "lon": 13.4050 },
+    "point2": { "lat": 53.5511, "lon": 9.9937 }
   }
 }
 ```
@@ -154,10 +140,11 @@ Calculate the distance between two coordinate points using precise geographic ca
 {
   "tool": "nearest-e-charging-stations",
   "parameters": {
-    "lat": 53.0793,
-    "lng": 8.8017,
-    "limit": 10,
-    "maxDistanceKm": 5
+    "location": {
+      "lat": 53.0793,
+      "lon": 8.8017
+    },
+    "limit": 10
   }
 }
 ```
@@ -169,20 +156,6 @@ Calculate the distance between two coordinate points using precise geographic ca
   "tool": "e-charging-stations",
   "parameters": {
     "limit": 100
-  }
-}
-```
-
-**Scenario 3: Distance-based service area calculation**
-```javascript
-// Calculate service radius from charging hub
-{
-  "tool": "calculate-distance",
-  "parameters": {
-    "lat1": 50.9375,
-    "lng1": 6.9603,
-    "lat2": 51.2277,
-    "lng2": 6.7735
   }
 }
 ```

@@ -44,34 +44,6 @@ This repository demonstrates the power of the **Model Context Protocol (MCP)** a
 
 ### Prerequisites
 
-- Node.js (LTS is recommended)
-- npm
-
-### Running Individual MCP Servers
-
-Each MCP server can be run independently:
-
-```bash
-# Gas stations server
-cd gas-stations-mcp
-npm install
-npm run dev
-
-# E-charging stations server  
-cd ladesaeulen-mcp
-npm install
-npm run dev
-
-# Navigation/geocoding server
-cd navigation-mcp
-npm install
-npm run dev
-```
-
-## 🛠️ Quick Start
-
-### Prerequisites
-
 - **Node.js** (LTS is recommended)
 - **npm** package manager
 
