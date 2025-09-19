@@ -1,0 +1,32 @@
+{
+	"servers": {
+		"ladesaeulen-mcp-dev": {
+			"type": "stdio",
+			"command": "npm",
+			"args": [
+				"run",
+				"dev"
+			],
+			"cwd": "${workspaceFolder}/ladesaeulen-mcp"
+		},
+		"gas-stations-mcp-dev": {
+			"type": "stdio",
+			"command": "npm",
+			"args": [
+				"run",
+				"dev"
+			],
+			"cwd": "${workspaceFolder}/gas-stations-mcp"
+		},
+		"navigation-mcp-dev": {
+			"type": "stdio",
+			"command": "npm",
+			"args": [
+				"run",
+				"dev"
+			],
+			"cwd": "${workspaceFolder}/navigation-mcp"
+		}
+	},
+	"inputs": []
+}
