@@ -45,9 +45,9 @@ server.registerTool(
                     lat: z.number(),
                     lng: z.number(),
                     dist: z.number(),
-                    diesel: z.number().optional(),
-                    e5: z.number().optional(),
-                    e10: z.number().optional(),
+                    diesel: z.number().nullable().optional(),
+                    e5: z.number().nullable().optional(),
+                    e10: z.number().nullable().optional(),
                     isOpen: z.boolean(),
                 }))
         }
@@ -102,9 +102,9 @@ server.registerTool(
             ok: z.boolean(),
             prices: z.record(z.string(), z.object({
                 status: z.string(),
-                diesel: z.number().optional(),
-                e5: z.number().optional(),
-                e10: z.number().optional()
+                diesel: z.number().nullable().optional(),
+                e5: z.number().nullable().optional(),
+                e10: z.number().nullable().optional(),
             }))
         }
     },
