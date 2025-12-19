@@ -109,7 +109,7 @@ const stationObject = z.object({
 ```typescript
 export const ZoomLevelEnum = z.enum([
     "3", "5", "8", "10", "12", "13", "14", "15", "16", "17", "18"
-]).describe("Level of detail required...");
+]).describe("Level of detail required for the address. Default is 18. [description truncated]");
 ```
 **Status**: ✅ Compatible with both v3 and v4
 
