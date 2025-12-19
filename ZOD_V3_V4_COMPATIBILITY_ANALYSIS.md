@@ -109,9 +109,10 @@ const stationObject = z.object({
 ```typescript
 export const ZoomLevelEnum = z.enum([
     "3", "5", "8", "10", "12", "13", "14", "15", "16", "17", "18"
-]).describe("Level of detail required for the address. Default is 18. [description truncated]");
+]).describe("Level of detail required for the address. Default is 18...");
 ```
-**Status**: ✅ Compatible with both v3 and v4
+**Status**: ✅ Compatible with both v3 and v4  
+*Note: The full description includes detailed zoom level mappings. Truncated for brevity.*
 
 ### Example 3: Record Type (gas-stations-mcp/src/index.ts)
 ```typescript
