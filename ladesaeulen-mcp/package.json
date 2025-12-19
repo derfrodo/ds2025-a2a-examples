@@ -14,12 +14,11 @@
   },
   "author": "",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.17.3",
-    "cross-fetch": "^4.1.0",
-    "dotenv": "^17.2.1"
+    "@modelcontextprotocol/sdk": "^1.25.1",
+    "dotenv": "^17.2.3"
   },
   "devDependencies": {
     "@types/node": "^24.3.0",
-    "tsx": "^4.20.4"
+    "tsx": "^4.21.0"
   }
 }
