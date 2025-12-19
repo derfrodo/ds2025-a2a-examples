@@ -132,7 +132,7 @@ outputSchema: {
 inputSchema: {
     lat: z.number().describe("Latitude as a number e.g. 50."),
     lng: z.number().describe("Longitude as a number e.g. 7."),
-    rad: z.number().min(0).max(25).describe("Radius/Max distance..."),
+    rad: z.number().min(0).max(25).describe("Radius/Max distance in kilometers"),
     limit: z.number().min(0).optional().default(10)
 }
 ```
