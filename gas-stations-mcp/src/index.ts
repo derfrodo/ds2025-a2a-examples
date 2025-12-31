@@ -139,7 +139,7 @@ server.registerTool(
                 brand: z.string(),
                 street: z.string(),
                 houseNumber: z.string().optional(),
-                postCode: z.string(),
+                postCode: z.union([z.string(), z.number()]),
                 place: z.string(),
                 lat: z.number(),
                 lng: z.number(),
