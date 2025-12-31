@@ -29,7 +29,7 @@ server.registerTool(
             limit: z.number().min(0).optional().default(10).describe("Maximum number of stations to return. Default is 10. Set to 0 for unlimited."),
             type: z.optional(z.enum(['e5', 'e10', 'diesel', 'all'])).describe("Type of fuel to filter by. Options are 'e5', 'e10', 'diesel', or 'all'. Default is 'all'."),
             sort: z.optional(z.enum(['price', 'dist'])).describe("Sort by price or distance. Only applicable when type is not 'all'. If type is set to 'all', sort must be ommitted or set to 'dist'."),
-            withDetails: z.boolean().optional().default(false).describe("If true, includes more details about each station in the response. Default is false. Fetching details using this query is not recommended."),
+            withDetails: z.boolean().optional().default(false).describe("If `true`, includes more details about each station in the response. Default is `false`. Fetching details using this query is not recommended."),
         },
         outputSchema: {
             ok: z.boolean().describe("Indicates if the request was successful"),
