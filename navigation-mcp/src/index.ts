@@ -228,6 +228,60 @@ server.registerTool(
 );
 
 
+server.registerResource(
+    "nav-link-for-lat-lng",
+    new ResourceTemplate("navlink://{lat}/{lng}", {
+        list: undefined,
+        complete: {
+            lat: (value) => (value ? [value] : []),
+            lng: (value) => (value ? [value] : []),
+        },
+    }),
+    {
+        title: "Nav link to Google Maps for given lat/lng",
+        description: "Generates a Google Maps navigation link for the provided latitude and longitude.",
+        mimeType: "text/plain",
+    },
+    async (uri, { lat, lng }) => {
+        const url = `https://www.google.de/maps/@${lat},${lng},20z`;
+        return {
+            contents: [
+                {
+                    uri: uri.href,
+                    text: url,
+                },
+            ],
+        };
+    }
+);
+
+
+server.registerTool(
+    'nav-link-tool',
+    {
+        title: 'Map Link by Coordinates',
+        description: 'Return a link to the nav resource for given lat/lng.',
+        inputSchema: {
+            lat: z.number(),
+            lng: z.number(),
+        },
+    },
+    async ({ lat, lng }) => {
+        const uri = `navlink://${lat}/${lng}`;
+        return {
+            content: [
+                {
+                    name: "Google Maps Link",
+                    type: 'resource_link',
+                    uri,
+                    title: 'Open Map Link',
+                    description: 'Google Maps link resource'
+                }
+            ]
+        };
+    }
+);
+
+
 const transport = new StdioServerTransport();
 await server.connect(transport);
-
