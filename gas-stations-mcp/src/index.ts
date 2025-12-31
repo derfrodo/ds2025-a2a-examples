@@ -44,9 +44,9 @@ server.registerTool(
                     lat: z.number(),
                     lng: z.number(),
                     dist: z.number(),
-                    diesel: z.number().nullable().optional(),
-                    e5: z.number().nullable().optional(),
-                    e10: z.number().nullable().optional(),
+                    diesel: z.number().nullable().optional().describe("Price of diesel fuel. May be null if not available or station closed."),
+                    e5: z.number().nullable().optional().describe("Price of E5 fuel. May be null if not available or station closed."),
+                    e10: z.number().nullable().optional().describe("Price of E10 fuel. May be null if not available or station closed."),
                     isOpen: z.boolean(),
                 }))
         }
