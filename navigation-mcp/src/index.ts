@@ -265,7 +265,6 @@ server.registerTool(
             lat: z.number(),
             lng: z.number(),
         },
-        // outputSchema: {} // can be omitted if you rely on content-only
     },
     async ({ lat, lng }) => {
         const uri = `navlink://${lat}/${lng}`;
