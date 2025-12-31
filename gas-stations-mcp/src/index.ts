@@ -143,9 +143,9 @@ server.registerTool(
                 place: z.string(),
                 lat: z.number(),
                 lng: z.number(),
-                diesel: z.number().optional(),
-                e5: z.number().optional(),
-                e10: z.number().optional()
+                diesel: z.number().nullable().optional(),
+                e5: z.number().nullable().optional(),
+                e10: z.number().nullable().optional()
             })
         }
     },
