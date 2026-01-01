@@ -143,9 +143,9 @@ server.registerTool(
                 place: z.string(),
                 lat: z.number(),
                 lng: z.number(),
-                diesel: z.number().nullable().optional(),
-                e5: z.number().nullable().optional(),
-                e10: z.number().nullable().optional()
+                diesel: z.number().nullable().optional().describe("Current diesel price; may be null if unavailable or if the station is closed."),
+                e5: z.number().nullable().optional().describe("Current E5 fuel price; may be null if unavailable or if the station is closed."),
+                e10: z.number().nullable().optional().describe("Current E10 fuel price; may be null if unavailable or if the station is closed.")
             })
         }
     },
