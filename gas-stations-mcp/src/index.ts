@@ -101,9 +101,9 @@ server.registerTool(
             ok: z.boolean(),
             prices: z.record(z.string(), z.object({
                 status: z.string(),
-                diesel: z.number().nullable().optional(),
-                e5: z.number().nullable().optional(),
-                e10: z.number().nullable().optional(),
+                diesel: z.union([z.boolean(), z.number()]).nullable().optional().describe("Diesel fuel price; may be null or false if unavailable or if the station is closed."),
+                e5: z.union([z.boolean(), z.number()]).nullable().optional().describe("E5 fuel price; may be null or false if unavailable or if the station is closed."),
+                e10: z.union([z.boolean(), z.number()]).nullable().optional().describe("E10 fuel price; may be null or false if unavailable or if the station is closed."),
             }))
         }
     },
