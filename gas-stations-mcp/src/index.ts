@@ -27,9 +27,9 @@ server.registerTool(
             lng: z.number().describe("Longitude as a number e.g. 7."),
             rad: z.number().min(0).max(25).describe("Radius/Max distance as number to be used for search in km."),
             limit: z.number().min(0).optional().default(10).describe("Maximum number of stations to return. Default is 10. Set to 0 for unlimited."),
-            type: z.optional(z.enum(['e5', 'e10', 'diesel', 'all'])),
-            sort: z.optional(z.enum(['price', 'dist'])).describe("Sort by price or distance. Only applicable when type is not 'all'. If type is set to 'all', sort must be ommitted or set to 'dist'."),
-            withDetails: z.boolean().optional().default(false).describe("If true, includes more details about each station in the response. Default is false. Fetching details using this query is not recommended."),
+            type: z.optional(z.enum(['e5', 'e10', 'diesel', 'all'])).describe("Type of fuel to filter by. Options are 'e5', 'e10', 'diesel', or 'all'. Default is 'all'."),
+            sort: z.optional(z.enum(['price', 'dist'])).describe("Sort by price or distance. Only applicable when type is not 'all'. If type is set to 'all', sort must be omitted or set to 'dist'."),
+            withDetails: z.boolean().optional().default(false).describe("If `true`, includes more details about each station in the response. Default is `false`. Fetching details using this query is not recommended."),
         },
         outputSchema: {
             ok: z.boolean().describe("Indicates if the request was successful"),
@@ -44,9 +44,9 @@ server.registerTool(
                     lat: z.number(),
                     lng: z.number(),
                     dist: z.number(),
-                    diesel: z.number().nullable().optional(),
-                    e5: z.number().nullable().optional(),
-                    e10: z.number().nullable().optional(),
+                    diesel: z.number().nullable().optional().describe("Price of diesel fuel. May be null if not available or station closed."),
+                    e5: z.number().nullable().optional().describe("Price of E5 fuel. May be null if not available or station closed."),
+                    e10: z.number().nullable().optional().describe("Price of E10 fuel. May be null if not available or station closed."),
                     isOpen: z.boolean(),
                 }))
         }
@@ -143,9 +143,9 @@ server.registerTool(
                 place: z.string(),
                 lat: z.number(),
                 lng: z.number(),
-                diesel: z.number().optional(),
-                e5: z.number().optional(),
-                e10: z.number().optional()
+                diesel: z.number().nullable().optional().describe("Current diesel price; may be null if unavailable or if the station is closed."),
+                e5: z.number().nullable().optional().describe("Current E5 fuel price; may be null if unavailable or if the station is closed."),
+                e10: z.number().nullable().optional().describe("Current E10 fuel price; may be null if unavailable or if the station is closed.")
             })
         }
     },
